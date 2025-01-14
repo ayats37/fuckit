@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taya <taya@student.fr>                     +#+  +:+       +#+        */
+/*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:52:24 by taya              #+#    #+#             */
-/*   Updated: 2025/01/13 21:40:33 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/14 19:06:42 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char    *find_cmd_path(char *cmd, char **env)
     return (NULL);
 }
 
-void    child(char **argv, int *pipe_fd,  char **env)
+void    first_child(char **argv, int *pipe_fd,  char **env)
 {
     int fd;
     char *cmd_path;
@@ -131,7 +131,7 @@ void    child(char **argv, int *pipe_fd,  char **env)
     free(cmd_args);
     exit(EXIT_FAILURE);
 }
-void    parent(char **argv, int *pipe_fd,  char **env)
+void    second_child(char **argv, int *pipe_fd,  char **env)
 {
     int fd;
     char *cmd_path;
@@ -187,11 +187,13 @@ int main(int argc, char **argv, char **env)
         exit(EXIT_FAILURE);
     }
     if (pid == 0)
-        child(argv, pipe_fd, env);
+        first_child(argv, pipe_fd, env);
     else
     {
+        pid = fork();
+        if (pid == 0)
+            second_child(argv, pipe_fd, env);
         wait(NULL);   
-        parent(argv, pipe_fd, env);
     }
     return (0);
 }
