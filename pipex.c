@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: taya <taya@student.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:52:24 by taya              #+#    #+#             */
-/*   Updated: 2025/01/14 19:06:42 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/15 15:28:27 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-int ft_open_file(const char *file, int mode)
-{
-    int fd;
-
-    fd = 0;
-    if (mode == 0)
-    {
-        fd = open(file, O_RDONLY);
-        if (fd == -1)
-        {
-            perror("error opening file");
-            return (-1);
-        }
-    }
-    else if (mode == 1)
-    {
-        fd = open(file,  O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        if (fd == -1)
-        {
-             perror("error opening file");
-            return (-1);
-        }
-    }
-    return (fd);
-}
 
 char *get_path(char **env)
 {
@@ -57,10 +31,16 @@ char    *find_cmd_path(char *cmd, char **env)
     char *path_string;
     char *full_path;
     char **paths;
-    char **cnd;
+    char **command;
     int i;
 
-    cnd = ft_split(cmd, ' ');
+    command = ft_split(cmd, ' ');
+    if (!command)
+    {
+        perror("failed to split command");
+        return (NULL);
+        ft_free_arr(command);
+    }
     path_string = get_path(env);
     if (!path_string)
     {
@@ -72,6 +52,7 @@ char    *find_cmd_path(char *cmd, char **env)
     {
         perror("failed to split path");
         return (NULL);
+        ft_free_arr(paths);
     }
     i = 0;
     while (paths[i])
@@ -80,20 +61,23 @@ char    *find_cmd_path(char *cmd, char **env)
         if (!full_path)
         {
             perror("allocation failed");
+            free(full_path);
             return (NULL);
         }
         ft_strcpy(full_path, paths[i]);
         ft_strcat(full_path, "/");
-        ft_strcat(full_path, cnd[0]);
+        ft_strcat(full_path, command[0]);
         if (access(full_path, F_OK) == 0 && access(full_path, X_OK) == 0)
         {
-            free(paths);
+            ft_free_arr(paths);
+            ft_free_arr(command);
             return(full_path);
         }
         free(full_path);
         i++;  
     }
-    free(paths);
+    ft_free_arr(paths);
+    ft_free_arr(command);
     return (NULL);
 }
 
@@ -120,11 +104,9 @@ void    first_child(char **argv, int *pipe_fd,  char **env)
     cmd_path = find_cmd_path(argv[2], env);
     if (!cmd_path)
     {
-        perror("c");
+        perror("command not found");
         exit(EXIT_FAILURE);
     }
-    printf("c;d path%s\n",cmd_path);
-    printf("ARG;1 %s arg2 %s\n", cmd_args[0], cmd_args[1]);
     execve(cmd_path, cmd_args, env);
     perror("execve failed");
     free(cmd_path);
@@ -154,7 +136,7 @@ void    second_child(char **argv, int *pipe_fd,  char **env)
     }
     if (!cmd_path)
     {
-        perror("c");
+        perror("command not found");
         exit(EXIT_FAILURE);
     }
     execve(cmd_path, cmd_args, env);
@@ -167,7 +149,8 @@ void    second_child(char **argv, int *pipe_fd,  char **env)
 
 int main(int argc, char **argv, char **env)
 {
-    pid_t pid;
+    pid_t pid1;
+    pid_t pid2;
     int pipe_fd[2];
     
     if (argc != 5)
@@ -180,20 +163,25 @@ int main(int argc, char **argv, char **env)
         perror("pipe failed");
         exit(EXIT_FAILURE);
     }
-    pid = fork();
-    if (pid == -1)
+    pid1 = fork();
+    if (pid1 == -1)
     {
         perror("fork failed");
         exit(EXIT_FAILURE);
     }
-    if (pid == 0)
+    if (pid1 == 0)
         first_child(argv, pipe_fd, env);
-    else
+    pid2 = fork();
+    if(pid2 == -1)
     {
-        pid = fork();
-        if (pid == 0)
-            second_child(argv, pipe_fd, env);
-        wait(NULL);   
+        perror("fork failed");
+        exit(EXIT_FAILURE);
     }
+    if (pid2 == 0)
+        second_child(argv, pipe_fd, env);
+    close(pipe_fd[0]);
+    close(pipe_fd[1]);
+    waitpid(pid1, NULL, 0);
+    waitpid(pid2, NULL, 0);
     return (0);
 }

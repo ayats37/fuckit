@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: taya <taya@student.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 03:27:15 by taya              #+#    #+#             */
-/*   Updated: 2025/01/14 18:44:01 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/14 20:23:02 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void    first_child(char **argv, int *pipe_fd,  char **env);
 void    second_child(char **argv, int *pipe_fd,  char **env);
 char    *ft_strcpy(char *dest, char *src);
 char    *ft_strcat(char *dest, char *src);
+void    ft_free_arr(char **arr);
 
 #endif
 
