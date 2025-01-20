@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 17:41:42 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/20 20:17:27 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	middle_cmd(int pipe_fd[][2], int i)
 	dup2(pipe_fd[i - 1][0], STDIN_FILENO);
 	dup2(pipe_fd[i][1], STDOUT_FILENO);
 }
+
 void	execute_command(char **argv, char **env, int i)
 {
 	char	*cmd_path;
@@ -52,7 +53,7 @@ void	execute_command(char **argv, char **env, int i)
 		perror("ft_split failed");
 		exit(EXIT_FAILURE);
 	}
-	cmd_path = find_cmd_path(argv[i + 2], env);
+	cmd_path = find_cmd_path(cmd_args[0], env);
 	if (!cmd_path)
 	{
 		perror("command not found");
@@ -65,6 +66,7 @@ void	execute_command(char **argv, char **env, int i)
 	ft_free_arr(cmd_args);
 	exit(EXIT_FAILURE);
 }
+
 void	child(int argc, char **argv, char **env, int i, int nbr_cmds,
 		int pipe_fd[2][2])
 {
