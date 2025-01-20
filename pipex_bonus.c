@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:45:32 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 22:13:01 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/20 22:32:35 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ char	*find_cmd_path(char *cmd, char **env)
 	ft_free_arr(command);
 	return (result);
 }
-int main(int argc, char **argv, char **env)
-{
-    int     pipe_fd[argc - 4][2];
-    int     nbr_cmds;
 
-    check_args(argc, &nbr_cmds);
-    create_pipes(argc, pipe_fd, nbr_cmds);
-    create_children(argc, argv, env, pipe_fd, nbr_cmds);
-    close_pipes(pipe_fd, nbr_cmds);
-    wait_children(nbr_cmds);
-    return (0);
+int	main(int argc, char **argv, char **env)
+{
+	int	pipe_fd[argc - 4][2];
+	int	nbr_cmds;
+
+	check_args(argc, &nbr_cmds);
+	create_pipes(argc, pipe_fd, nbr_cmds);
+	create_children(argc, argv, env, pipe_fd, nbr_cmds);
+	close_pipes(pipe_fd, nbr_cmds);
+	wait_children(nbr_cmds);
+	return (0);
 }

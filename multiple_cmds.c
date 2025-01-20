@@ -85,11 +85,11 @@ void	child(int argc, char **argv, char **env, int i, int nbr_cmds,
 		close(pipe_fd[j][1]);
 		j++;
 	}
-    if (argv[i + 2] && argv[i + 2][0] != '\0')
-	    execute_command(argv, env, i);
+	if (argv[i + 2] && argv[i + 2][0] != '\0')
+		execute_command(argv, env, i);
 	else
-    {
-        perror("comamnd not found");
-        exit(1);
-    }
+	{
+		perror("comamnd not found");
+		exit(1);
+	}
 }
