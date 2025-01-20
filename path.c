@@ -6,11 +6,12 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 00:39:42 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 05:26:04 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/20 16:27:23 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "pipex_bonus.h"
 
 char	*get_path(char **env)
 {
