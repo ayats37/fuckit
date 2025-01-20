@@ -1,5 +1,5 @@
 SRCS = pipex.c utils.c path.c helpers.c
-SRCS_BONUS = pipex_bonus.c utils_bonus.c path.c multiple_cmds.c
+SRCS_BONUS = pipex_bonus.c utils_bonus.c path.c multiple_cmds.c helpers_bonus.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
