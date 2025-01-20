@@ -13,21 +13,18 @@
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
+# include "./libft/libft.h"
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 
-#include <unistd.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include "./libft/libft.h"
-
-
-void    child(int argc, char **argv, char **env, int i, int nbr_cmds, int pipe_fd[2][2]);
-int ft_open_file(const char *file, int mode);
-char *get_path(char **env);
-char    *ft_strcpy(char *dest, char *src);
-char    *ft_strcat(char *dest, char *src);
-void    ft_free_arr(char **arr);
-
-
+void	child(int argc, char **argv, char **env, int i, int nbr_cmds,
+			int pipe_fd[2][2]);
+int		ft_open_file(const char *file, int mode);
+char	*get_path(char **env);
+char	*ft_strcpy(char *dest, char *src);
+char	*ft_strcat(char *dest, char *src);
+void	ft_free_arr(char **arr);
 
 #endif
