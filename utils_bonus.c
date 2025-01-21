@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 00:09:51 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 22:31:49 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/21 19:59:44 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,26 @@ int	ft_open_file(const char *file, int mode)
 		}
 	}
 	return (fd);
+}
+char	*find_cmd_path(char *cmd, char **env)
+{
+	char	**command;
+	char	**paths;
+	char	*result;
+
+	command = split_cmd(cmd);
+	if (!command)
+		return (NULL);
+	paths = get_paths(env);
+	if (!paths)
+	{
+		ft_free_arr(command);
+		return (NULL);
+	}
+	result = check_paths(paths, command[0]);
+	ft_free_arr(paths);
+	ft_free_arr(command);
+	return (result);
 }
 
 char	*ft_strcpy(char *dest, char *src)

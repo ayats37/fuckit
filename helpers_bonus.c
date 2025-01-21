@@ -6,28 +6,28 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:04:30 by taya              #+#    #+#             */
-/*   Updated: 2025/01/21 17:25:40 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/21 18:51:06 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	check_input(int argc, int *nbr_cmds)
+void	check_input(t_data *data)
 {
-	if (argc < 5)
+	if (data->argc < 5)
 	{
 		perror("Usage: ./pipex infile cmd1 cmd2 ... outfile");
 		exit(EXIT_FAILURE);
 	}
-	*nbr_cmds = argc - 3;
+	data->cmd_nbrs = data->argc - 3;
 }
 
-void	create_pipes(int pipe_fd[][2], int nbr_cmds)
+void	create_pipes(t_data *data, int pipe_fd[][2])
 {
 	int	i;
 
 	i = 0;
-	while (i < nbr_cmds - 1)
+	while (i < data->cmd_nbrs - 1)
 	{
 		if (pipe(pipe_fd[i]) == -1)
 		{
@@ -38,14 +38,13 @@ void	create_pipes(int pipe_fd[][2], int nbr_cmds)
 	}
 }
 
-void	create_children(int argc, char **argv, char **env, int pipe_fd[][2],
-		int nbr_cmds)
+void	create_children(t_data *data, int pipe_fd[][2])
 {
 	int		i;
 	pid_t	pid;
 
 	i = 0;
-	while (i < nbr_cmds)
+	while (i < data->cmd_nbrs)
 	{
 		pid = fork();
 		if (pid == -1)
@@ -54,17 +53,20 @@ void	create_children(int argc, char **argv, char **env, int pipe_fd[][2],
 			exit(EXIT_FAILURE);
 		}
 		if (pid == 0)
-			child(argc, argv, env, i, nbr_cmds, pipe_fd);
+		{
+			data->i = i;
+			child(data, pipe_fd);
+		}
 		i++;
 	}
 }
 
-void	close_pipes(int pipe_fd[][2], int nbr_cmds)
+void	close_pipes(t_data *data, int pipe_fd[][2])
 {
 	int	i;
 
 	i = 0;
-	while (i < nbr_cmds - 1)
+	while (i < data->cmd_nbrs - 1)
 	{
 		close(pipe_fd[i][0]);
 		close(pipe_fd[i][1]);
@@ -72,12 +74,12 @@ void	close_pipes(int pipe_fd[][2], int nbr_cmds)
 	}
 }
 
-void	wait_children(int nbr_cmds)
+void	wait_children(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while (i < nbr_cmds)
+	while (i < data->cmd_nbrs)
 	{
 		wait(NULL);
 		i++;

@@ -1,1 +1,15 @@
-       0
+Makefile
+helpers.c
+helpers_bonus.c
+infile.txt
+libft
+multiple_cmds.c
+outfile.txt
+path.c
+pipex
+pipex.c
+pipex.h
+pipex_bonus.c
+pipex_bonus.h
+utils.c
+utils_bonus.c
