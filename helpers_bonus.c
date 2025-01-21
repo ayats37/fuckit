@@ -6,13 +6,13 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:04:30 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 22:33:54 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/21 17:25:40 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	check_args(int argc, int *nbr_cmds)
+void	check_input(int argc, int *nbr_cmds)
 {
 	if (argc < 5)
 	{
@@ -22,7 +22,7 @@ void	check_args(int argc, int *nbr_cmds)
 	*nbr_cmds = argc - 3;
 }
 
-void	create_pipes(int argc, int pipe_fd[][2], int nbr_cmds)
+void	create_pipes(int pipe_fd[][2], int nbr_cmds)
 {
 	int	i;
 

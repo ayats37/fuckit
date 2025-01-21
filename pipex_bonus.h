@@ -6,12 +6,16 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:46:19 by taya              #+#    #+#             */
-/*   Updated: 2025/01/20 22:15:27 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/21 17:27:07 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
+
+# ifndef MAX_PIPES
+# define MAX_PIPES 5120
+# endif
 
 # include "./libft/libft.h"
 # include <fcntl.h>
@@ -36,8 +40,8 @@ char	*find_cmd_path(char *cmd, char **env);
 void	first_cmd(char **argv, int pipe_fd[][2], int i);
 void	last_cmd(char **argv, int pipe_fd[][2], int i, int argc);
 void	middle_cmd(int pipe_fd[][2], int i);
-void	check_args(int argc, int *nbr_cmds);
-void	create_pipes(int argc, int pipe_fd[][2], int nbr_cmds);
+void	check_input(int argc, int *nbr_cmds);
+void	create_pipes(int pipe_fd[][2], int nbr_cmds);
 void	create_children(int argc, char **argv, char **env, int pipe_fd[][2],
 			int nbr_cmds);
 void	close_pipes(int pipe_fd[][2], int nbr_cmds);
