@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 00:09:51 by taya              #+#    #+#             */
-/*   Updated: 2025/01/21 19:59:44 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/21 22:12:04 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	ft_open_file(const char *file, int mode)
 	}
 	return (fd);
 }
+
 char	*find_cmd_path(char *cmd, char **env)
 {
 	char	**command;

@@ -6,21 +6,37 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/21 18:51:58 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/22 14:39:41 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
+// void	first_cmd(t_data *data, int pipe_fd[][2])
+// {
+// 	int	fd;
+
+// 	fd = ft_open_file(data->argv[1], 0);
+// 	if (fd == -1)
+// 		exit(EXIT_FAILURE);
+// 	dup2(fd, STDIN_FILENO);
+// 	close(fd);
+// 	dup2(pipe_fd[data->i][1], STDOUT_FILENO);
+// }
 void	first_cmd(t_data *data, int pipe_fd[][2])
 {
 	int	fd;
 
-	fd = ft_open_file(data->argv[1], 0);
-	if (fd == -1)
-		exit(EXIT_FAILURE);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	if (data->here_doc)
+		dup2(pipe_fd[0][0], STDIN_FILENO);
+	else
+	{
+		fd = ft_open_file(data->argv[1], 0);
+		if (fd == -1)
+			exit(EXIT_FAILURE);
+		dup2(fd, STDIN_FILENO);
+		close(fd);
+	}
 	dup2(pipe_fd[data->i][1], STDOUT_FILENO);
 }
 
