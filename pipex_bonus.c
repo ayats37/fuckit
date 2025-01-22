@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:45:32 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 16:59:38 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/22 21:20:40 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 	data.argc = argc;
 	data.argv = argv;
 	data.env = env;
-	data.here_doc = (argc >= 6 && !ft_strncmp(argv[1], "here_doc", 8));
+	data.here_doc = (argc > 1 && !ft_strncmp(argv[1], "here_doc", 8));
 	if (data.here_doc)
 		data.cmd_nbrs = argc - 4;
 	else
@@ -53,7 +53,11 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (data.here_doc)
 	{
-		pipe(pipe_fd[0]);
+		if (pipe(pipe_fd[0]) == -1)
+		{
+        	perror("pipe failed");
+        	return (1);
+    	}
 		here_doc(&data, pipe_fd);
 	}
 	create_pipes(&data, pipe_fd);
