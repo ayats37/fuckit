@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:04:30 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 21:31:30 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/22 22:47:43 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,24 @@
 
 void	check_input(t_data *data)
 {
-	if (data->argc < 5)
+	if (data->here_doc)
 	{
-		perror("Usage: ./pipex infile cmd1 cmd2 ... outfile");
-		exit(EXIT_FAILURE);
+		if (data->argc < 6)
+		{
+			perror("Usage: ./pipex here_doc LIMITER cm1 cmd2 ... file");
+			exit(EXIT_FAILURE);
+		}
+		data->cmd_nbrs = data->argc - 4;
 	}
-	data->cmd_nbrs = data->argc - 3;
+	else
+	{
+		if (data->argc < 5)
+		{
+			perror("Usage: ./pipex infile cmd1 cmd2 ... outfile");
+			exit(EXIT_FAILURE);
+		}
+		data->cmd_nbrs = data->argc - 3;
+	}
 }
 
 void	create_pipes(t_data *data, int pipe_fd[][2])

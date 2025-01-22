@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:45:32 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 21:20:40 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/22 22:46:24 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	here_doc(t_data *data, int pipe_fd[][2])
 		write(pipe_fd[data->i][1], line, ft_strlen(line));
 		free(line);
 	}
+	 close(pipe_fd[0][1]);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -42,15 +43,9 @@ int	main(int argc, char **argv, char **env)
 	data.argv = argv;
 	data.env = env;
 	data.here_doc = (argc > 1 && !ft_strncmp(argv[1], "here_doc", 8));
-	if (data.here_doc)
-		data.cmd_nbrs = argc - 4;
-	else
-		data.cmd_nbrs = argc - 3;
+	check_input(&data);
 	if (data.cmd_nbrs > MAX_PIPES)
-	{
-		ft_putstr_fd("Error: Too many commands\n", 2);
 		return (1);
-	}
 	if (data.here_doc)
 	{
 		if (pipe(pipe_fd[0]) == -1)

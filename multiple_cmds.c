@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 21:44:34 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/22 22:27:50 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	first_cmd(t_data *data, int pipe_fd[][2])
 
 	if (data->here_doc)
 	{
-		close(pipe_fd[0][1]);	
 		dup2(pipe_fd[0][0], STDIN_FILENO);
 		close(pipe_fd[0][0]);
 		dup2(pipe_fd[1][1], STDOUT_FILENO);
+		close(pipe_fd[0][1]);	
 	}
 	else
 	{
