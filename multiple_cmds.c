@@ -90,7 +90,7 @@ void	child(t_data *data, int pipe_fd[][2])
 		close(pipe_fd[j][1]);
 		j++;
 	}
-	if (data->argv[data->i + 3] && data->argv[data->i + 3][0] != '\0' 
+	if (data->argv[data->i + 3] && data->argv[data->i + 3][0] != '\0'
 		&& data->here_doc)
 		execute_commands(data);
 	else if (data->argv[data->i + 2] && data->argv[data->i + 2][0] != '\0')
