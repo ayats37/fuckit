@@ -6,26 +6,25 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/25 18:02:40 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/25 18:19:13 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void first_cmd(t_data *data, int pipe_fd[][2]) {
-    int fd;
-    if (data->here_doc)
-        fd = open("file", O_RDONLY);
-    else
-        fd = open(data->argv[1], O_RDONLY);
-    
-    if (fd == -1)
-        exit(EXIT_FAILURE);
-    
-    dup2(fd, STDIN_FILENO);
-    close(fd);
+void	first_cmd(t_data *data, int pipe_fd[][2])
+{
+	int	fd;
 
-    dup2(pipe_fd[data->i][1], STDOUT_FILENO);
+	if (data->here_doc)
+		fd = open("file", O_RDONLY);
+	else
+		fd = open(data->argv[1], O_RDONLY);
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	dup2(pipe_fd[data->i][1], STDOUT_FILENO);
 }
 
 void	last_cmd(t_data *data, int pipe_fd[][2])
@@ -50,7 +49,7 @@ void	execute_commands(t_data *data)
 {
 	char	*cmd_path;
 	char	**cmd_args;
-	
+
 	if (data->here_doc)
 		cmd_args = ft_split(data->argv[data->i + 3], ' ');
 	else
@@ -77,7 +76,7 @@ void	execute_commands(t_data *data)
 void	child(t_data *data, int pipe_fd[][2])
 {
 	int	j;
-	
+
 	j = 0;
 	if (data->i == 0)
 		first_cmd(data, pipe_fd);
@@ -91,7 +90,8 @@ void	child(t_data *data, int pipe_fd[][2])
 		close(pipe_fd[j][1]);
 		j++;
 	}
-	if (data->here_doc && data->argv[data->i + 3] && data->argv[data->i + 3][0] != '\0')
+	if (data->here_doc && data->argv[data->i + 3] && data->argv[data->i
+		+ 3][0] != '\0')
 		execute_commands(data);
 	else if (data->argv[data->i + 2] && data->argv[data->i + 2][0] != '\0')
 		execute_commands(data);

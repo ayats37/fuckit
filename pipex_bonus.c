@@ -6,36 +6,38 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:45:32 by taya              #+#    #+#             */
-/*   Updated: 2025/01/25 18:12:46 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/25 18:17:15 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void here_doc(t_data *data) {
-    char *line;
-	int fd; 
-	
-    fd = open("file", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd == -1)
-        exit(EXIT_FAILURE);
+void	here_doc(t_data *data)
+{
+	char	*line;
+	int		fd;
 
-    while (1) 
+	fd = open("file", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	while (1)
 	{
-        write(1, "heredoc> ", 9);
-        line = get_next_line(0);
-        if (!line)
-            break;
-        if (ft_strncmp(line, data->argv[2], ft_strlen(data->argv[2])) == 0
-            && line[ft_strlen(data->argv[2])] == '\n') {
-            free(line);
-            break;
-        }
-        write(fd, line, ft_strlen(line));
-        free(line);
-    }
-    close(fd);
+		write(1, "heredoc> ", 9);
+		line = get_next_line(0);
+		if (!line)
+			break ;
+		if (ft_strncmp(line, data->argv[2], ft_strlen(data->argv[2])) == 0
+			&& line[ft_strlen(data->argv[2])] == '\n')
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		free(line);
+	}
+	close(fd);
 }
+
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
@@ -54,6 +56,6 @@ int	main(int argc, char **argv, char **env)
 	create_children(&data, pipe_fd);
 	close_pipes(&data, pipe_fd);
 	wait_children(&data);
-	unlink ("file");
+	unlink("file");
 	return (0);
 }

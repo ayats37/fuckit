@@ -37,7 +37,7 @@ void	check_input(t_data *data)
 void	create_pipes(t_data *data, int pipe_fd[][2])
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < data->cmd_nbrs - 1)
 	{
