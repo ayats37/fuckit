@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:04:30 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 22:47:43 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/25 16:52:02 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,8 @@ void	check_input(t_data *data)
 void	create_pipes(t_data *data, int pipe_fd[][2])
 {
 	int	i;
-	if (data->here_doc)
-		i = 1;
-	else
-		i = 0;
+	
+	i = 0;
 	while (i < data->cmd_nbrs - 1)
 	{
 		if (pipe(pipe_fd[i]) == -1)

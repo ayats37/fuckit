@@ -6,32 +6,26 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/22 22:27:50 by taya             ###   ########.fr       */
+/*   Updated: 2025/01/25 18:02:40 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	first_cmd(t_data *data, int pipe_fd[][2])
-{
-	int	fd;
+void first_cmd(t_data *data, int pipe_fd[][2]) {
+    int fd;
+    if (data->here_doc)
+        fd = open("file", O_RDONLY);
+    else
+        fd = open(data->argv[1], O_RDONLY);
+    
+    if (fd == -1)
+        exit(EXIT_FAILURE);
+    
+    dup2(fd, STDIN_FILENO);
+    close(fd);
 
-	if (data->here_doc)
-	{
-		dup2(pipe_fd[0][0], STDIN_FILENO);
-		close(pipe_fd[0][0]);
-		dup2(pipe_fd[1][1], STDOUT_FILENO);
-		close(pipe_fd[0][1]);	
-	}
-	else
-	{
-		fd = ft_open_file(data->argv[1], 0);
-		if (fd == -1)
-			exit(EXIT_FAILURE);
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	dup2(pipe_fd[data->i][1], STDOUT_FILENO);
+    dup2(pipe_fd[data->i][1], STDOUT_FILENO);
 }
 
 void	last_cmd(t_data *data, int pipe_fd[][2])
