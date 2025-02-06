@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:54:14 by taya              #+#    #+#             */
-/*   Updated: 2025/01/25 18:34:13 by taya             ###   ########.fr       */
+/*   Updated: 2025/02/06 14:54:51 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,20 @@ void	execute_commands(t_data *data)
 	if (cmd_args == NULL)
 	{
 		perror("ft_split failed");
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	cmd_path = find_cmd_path(cmd_args[0], data->env);
 	if (!cmd_path)
 	{
 		perror("command not found");
 		ft_free_arr(cmd_args);
-		exit(EXIT_FAILURE);
+		exit(1);
 	}
 	execve(cmd_path, cmd_args, data->env);
 	perror("execve failed");
 	free(cmd_path);
 	ft_free_arr(cmd_args);
-	exit(EXIT_FAILURE);
+	exit(1);
 }
 
 void	child(t_data *data, int pipe_fd[][2])

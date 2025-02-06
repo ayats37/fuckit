@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 16:52:24 by taya              #+#    #+#             */
-/*   Updated: 2025/01/25 23:15:13 by taya             ###   ########.fr       */
+/*   Updated: 2025/02/06 20:38:23 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	execute_command(char *cmd, char **env)
 	if (!cmd_path)
 	{
 		ft_free_arr(cmd_args);
-		perror("command not found");
+		ft_putstr_fd("command not found\n", 2);
 		exit(EXIT_FAILURE);
 	}
 	execve(cmd_path, cmd_args, env);
@@ -111,6 +111,7 @@ int	main(int argc, char **argv, char **env)
 	pid_t	pid1;
 	pid_t	pid2;
 	int		pipe_fd[2];
+	int		status;
 
 	check_args(argc);
 	handle_pipe(pipe_fd);
@@ -123,6 +124,6 @@ int	main(int argc, char **argv, char **env)
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	waitpid(pid1, NULL, 0);
-	waitpid(pid2, NULL, 0);
-	return (0);
+	waitpid(pid2, &status, 0);
+	return (WEXITSTATUS(status));
 }
