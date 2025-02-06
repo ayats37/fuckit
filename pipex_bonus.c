@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:45:32 by taya              #+#    #+#             */
-/*   Updated: 2025/02/06 20:40:39 by taya             ###   ########.fr       */
+/*   Updated: 2025/02/06 22:00:29 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	int		pipe_fd[MAX_PIPES][2];
+	int status;
 
 	data.argc = argc;
 	data.argv = argv;
@@ -55,6 +56,6 @@ int	main(int argc, char **argv, char **env)
 	create_pipes(&data, pipe_fd);
 	create_children(&data, pipe_fd);
 	close_pipes(&data, pipe_fd);
-	wait_children(&data);
-	return (0);
+	wait_children(&data, &status);
+	return (WEXITSTATUS(status));
 }

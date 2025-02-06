@@ -6,7 +6,7 @@
 /*   By: taya <taya@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:04:30 by taya              #+#    #+#             */
-/*   Updated: 2025/02/06 14:49:20 by taya             ###   ########.fr       */
+/*   Updated: 2025/02/06 22:01:41 by taya             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ void	close_pipes(t_data *data, int pipe_fd[][2])
 	}
 }
 
-void	wait_children(t_data *data)
+void	wait_children(t_data *data, int *status)
 {
 	int	i;
 
 	i = 0;
 	while (i < data->cmd_nbrs)
 	{
-		wait(NULL);
+		wait(status);
 		i++;
 	}
 }
